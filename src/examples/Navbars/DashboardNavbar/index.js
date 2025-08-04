@@ -205,6 +205,7 @@ function DashboardNavbar({ absolute, light, isMini }) {
               >
                 <Icon>settings</Icon>
               </IconButton>
+              
               <IconButton
                 size="small"
                 color={light && transparentNavbar ? "white" : "dark"}
