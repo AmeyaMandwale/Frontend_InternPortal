@@ -214,7 +214,6 @@ function DashboardNavbar({ absolute, light, isMini }) {
                 variant="contained"
                 onClick={handleOpenMenu}
               >
-                
                 <Icon>notifications</Icon>
               </IconButton>
               {renderMenu()}
