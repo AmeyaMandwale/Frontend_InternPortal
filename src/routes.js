@@ -45,7 +45,12 @@ import Dashboard from "layouts/dashboard";
 import OpportunitiesSection from "layouts/opportunity section";
 // Argon Dashboard 2 MUI components
 import ArgonBox from "components/ArgonBox";
+
 import ResumeBuilder from "layouts/ResumeBuilder";
+
+import UserProfile from "layouts/userprofile";
+import Activity from "layouts/activity";
+
 
 const routes = [
   {
@@ -58,12 +63,14 @@ const routes = [
   },
   {
     type: "route",
+
     name: "Opportunities",
     key: "opportunities",
     route: "/opportunities",
     icon: <ArgonBox component="i" color="info" fontSize="14px" className="ni ni-briefcase-24" />,
     component: <OpportunitiesSection />,
   },
+
     {
     type: "route",
     name: "Resume Builder",
@@ -123,6 +130,27 @@ const routes = [
   //   icon: <ArgonBox component="i" color="info" fontSize="14px" className="ni ni-collection" />,
   //   component: <SignUp />,
   // },
+
+  
+{  
+   type: "route",
+    name: "UserProfile",
+    key: "userprofile",
+    route: "/userprofile",
+    icon: <ArgonBox component="i" color="primary" fontSize="14px" className="ni ni-tv-2" />,
+    component: <UserProfile />,
+  },
+  {
+    type: "route",
+    name: "Activity",
+    key: "activity",
+    route: "/activity",
+    icon: <ArgonBox component="i" color="primary" fontSize="14px" className="ni ni-tv-2" />,
+    component: <Activity />,
+  },
+ 
+
+
 ];
 
 export default routes;
