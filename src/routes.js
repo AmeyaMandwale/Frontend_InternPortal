@@ -45,6 +45,7 @@ import Dashboard from "layouts/dashboard";
 import OpportunitiesSection from "layouts/opportunity section";
 // Argon Dashboard 2 MUI components
 import ArgonBox from "components/ArgonBox";
+import ResumeBuilder from "layouts/ResumeBuilder";
 
 const routes = [
   {
@@ -62,6 +63,14 @@ const routes = [
     route: "/opportunities",
     icon: <ArgonBox component="i" color="info" fontSize="14px" className="ni ni-briefcase-24" />,
     component: <OpportunitiesSection />,
+  },
+    {
+    type: "route",
+    name: "Resume Builder",
+    key: "resume",
+    route: "/resume",
+    icon: <ArgonBox component="i" color="info" fontSize="14px" className="ni ni-single-copy-04" />,
+    component: <ResumeBuilder />,
   },
   // {
   //   type: "route",
