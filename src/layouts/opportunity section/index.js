@@ -19,6 +19,10 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
+import Select from "@mui/material/Select";
+import FormControl from "@mui/material/FormControl";
+import InputLabel from "@mui/material/InputLabel";
+import Tooltip from "@mui/material/Tooltip";
 
 // Argon Dashboard 2 MUI components
 import ArgonBox from "components/ArgonBox";
@@ -41,7 +45,10 @@ function Opportunities() {
       stipend: 45000,
       posted: new Date('2023-06-28'),
       description: "Work with large datasets to derive business insights using machine learning models.",
-      isSaved: false
+      isSaved: false,
+      isApplied: false,
+      status: null,
+      applyLink: "https://example.com/apply/1"
     },
     {
       id: 2,
@@ -51,7 +58,10 @@ function Opportunities() {
       stipend: 35000,
       posted: new Date('2023-06-21'),
       description: "Develop and maintain web applications using React and Node.js.",
-      isSaved: true
+      isSaved: true,
+      isApplied: true,
+      status: "Approved",
+      applyLink: "https://example.com/apply/2"
     },
     {
       id: 3,
@@ -61,7 +71,10 @@ function Opportunities() {
       stipend: 50000,
       posted: new Date('2023-06-07'),
       description: "Design and implement cloud infrastructure solutions on AWS.",
-      isSaved: false
+      isSaved: false,
+      isApplied: true,
+      status: "Pending",
+      applyLink: "https://example.com/apply/3"
     },
     {
       id: 4,
@@ -71,7 +84,10 @@ function Opportunities() {
       stipend: 40000,
       posted: new Date('2023-05-28'),
       description: "Create user-centered designs for digital products.",
-      isSaved: false
+      isSaved: false,
+      isApplied: false,
+      status: null,
+      applyLink: "https://example.com/apply/4"
     },
     {
       id: 5,
@@ -81,7 +97,10 @@ function Opportunities() {
       stipend: 55000,
       posted: new Date('2023-06-14'),
       description: "Implement CI/CD pipelines and automate deployment processes.",
-      isSaved: true
+      isSaved: true,
+      isApplied: true,
+      status: "Rejected",
+      applyLink: "https://example.com/apply/5"
     },
     {
       id: 6,
@@ -91,7 +110,10 @@ function Opportunities() {
       stipend: 38000,
       posted: new Date('2023-06-23'),
       description: "Analyze business data and generate reports for stakeholders.",
-      isSaved: false
+      isSaved: false,
+      isApplied: true,
+      status: "Pending",
+      applyLink: "https://example.com/apply/6"
     },
   ];
 
@@ -132,6 +154,16 @@ function Opportunities() {
     { label: "Lowest Stipend", value: "lowStipend" },
   ];
 
+  // Get status color
+  const getStatusColor = (status) => {
+    switch(status) {
+      case "Approved": return "success";
+      case "Pending": return "warning";
+      case "Rejected": return "error";
+      default: return "info";
+    }
+  };
+
   // Filter and sort functions
   const applyFiltersAndSort = () => {
     let filtered = [...opportunities];
@@ -156,9 +188,11 @@ function Opportunities() {
       filtered = filtered.filter(opp => opp.stipend >= range.min && opp.stipend <= range.max);
     }
     
-    // Apply saved filter
+    // Apply tab filter
     if (activeTab === 'saved') {
       filtered = filtered.filter(opp => opp.isSaved);
+    } else if (activeTab === 'applied') {
+      filtered = filtered.filter(opp => opp.isApplied);
     }
     
     // Apply sorting
@@ -193,6 +227,29 @@ function Opportunities() {
     setOpportunities(prev => 
       prev.map(opp => 
         opp.id === id ? { ...opp, isSaved: !opp.isSaved } : opp
+      )
+    );
+  };
+
+  // Toggle applied status
+  const toggleApplied = (id) => {
+    setOpportunities(prev => 
+      prev.map(opp => 
+        opp.id === id ? { ...opp, isApplied: !opp.isApplied, status: !opp.isApplied ? null : opp.status } : opp
+      )
+    );
+  };
+
+  // Handle external application
+  const handleApplyNow = (link) => {
+    window.open(link, '_blank');
+  };
+
+  // Handle status change
+  const handleStatusChange = (id, newStatus) => {
+    setOpportunities(prev => 
+      prev.map(opp => 
+        opp.id === id ? { ...opp, status: newStatus } : opp
       )
     );
   };
@@ -303,6 +360,16 @@ function Opportunities() {
             </Grid>
             <Grid item>
               <ArgonButton 
+                variant={activeTab === 'applied' ? "gradient" : "outlined"} 
+                color={activeTab === 'applied' ? "info" : "dark"} 
+                size="small"
+                onClick={() => setActiveTab('applied')}
+              >
+                Applied
+              </ArgonButton>
+            </Grid>
+            <Grid item>
+              <ArgonButton 
                 variant="outlined" 
                 color="dark" 
                 size="small" 
@@ -408,13 +475,26 @@ function Opportunities() {
                         <ArgonTypography variant="h5" fontWeight="bold" gutterBottom>
                           {opportunity.position}
                         </ArgonTypography>
-                        <Icon 
-                          color={opportunity.isSaved ? "warning" : "secondary"} 
-                          sx={{ cursor: "pointer" }}
-                          onClick={() => toggleSave(opportunity.id)}
-                        >
-                          {opportunity.isSaved ? "bookmark" : "bookmark_border"}
-                        </Icon>
+                        <ArgonBox display="flex" alignItems="center">
+                          <Tooltip title={opportunity.isApplied ? "Applied" : "Not Applied"} arrow>
+                            <Icon 
+                              color={opportunity.isApplied ? "success" : "secondary"} 
+                              sx={{ cursor: "pointer", mr: 1 }}
+                              onClick={() => toggleApplied(opportunity.id)}
+                            >
+                              {opportunity.isApplied ? "check_circle" : "radio_button_unchecked"}
+                            </Icon>
+                          </Tooltip>
+                          <Tooltip title={opportunity.isSaved ? "Saved" : "Save"} arrow>
+                            <Icon 
+                              color={opportunity.isSaved ? "warning" : "secondary"} 
+                              sx={{ cursor: "pointer" }}
+                              onClick={() => toggleSave(opportunity.id)}
+                            >
+                              {opportunity.isSaved ? "bookmark" : "bookmark_border"}
+                            </Icon>
+                          </Tooltip>
+                        </ArgonBox>
                       </ArgonBox>
 
                       <ArgonBox display="flex" alignItems="center" mb={1}>
@@ -446,9 +526,36 @@ function Opportunities() {
                         <ArgonTypography variant="caption" color="text">
                           Posted: {formatDate(opportunity.posted)}
                         </ArgonTypography>
-                        <Button variant="contained" color="info" size="small">
-                          Apply Now
-                        </Button>
+                        {activeTab === 'applied' && opportunity.isApplied ? (
+                          <FormControl size="small" sx={{ minWidth: 120 }}>
+                            <InputLabel>Status</InputLabel>
+                            <Select
+                              value={opportunity.status || "Pending"}
+                              label="Status"
+                              onChange={(e) => handleStatusChange(opportunity.id, e.target.value)}
+                              sx={{
+                                backgroundColor: `${getStatusColor(opportunity.status)}.light`,
+                                color: `${getStatusColor(opportunity.status)}.dark`,
+                                '& .MuiSelect-icon': {
+                                  color: `${getStatusColor(opportunity.status)}.dark`
+                                }
+                              }}
+                            >
+                              <MenuItem value="Approved">Approved</MenuItem>
+                              <MenuItem value="Pending">Pending</MenuItem>
+                              <MenuItem value="Rejected">Rejected</MenuItem>
+                            </Select>
+                          </FormControl>
+                        ) : (
+                          <Button 
+                            variant="contained" 
+                            color="info" 
+                            size="small"
+                            onClick={() => handleApplyNow(opportunity.applyLink)}
+                          >
+                            Apply Now
+                          </Button>
+                        )}
                       </ArgonBox>
                     </ArgonBox>
                   </Card>
