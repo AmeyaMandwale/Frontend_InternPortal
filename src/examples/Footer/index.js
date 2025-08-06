@@ -117,6 +117,6 @@ Coded by www.creative-tim.com
 // export default Footer;
 
 function Footer(){
-  return (<div>abc</div>);
+  return (<div></div>);
 }
 export default Footer;
