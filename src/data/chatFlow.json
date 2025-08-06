@@ -1,0 +1,32 @@
+[
+  {
+    "id": "start",
+    "message": "Hi! How can I help you today?",
+    "options": [
+      { "label": "Internship info", "next": "internship" },
+      { "label": "Resume help", "next": "resume" }
+    ]
+  },
+  {
+    "id": "internship",
+    "message": "We provide internships in Web, ML, and Data Science. Want to know more?",
+    "options": [
+      { "label": "Yes", "next": "more_info" },
+      { "label": "No", "next": "end" }
+    ]
+  },
+  {
+    "id": "resume",
+    "message": "You can upload your resume and get suggestions on improvements.",
+    "next": "end"
+  },
+  {
+    "id": "more_info",
+    "message": "Visit our site for full details or contact support.",
+    "next": "end"
+  },
+  {
+    "id": "end",
+    "message": "Thanks for chatting! Have a great day."
+  }
+]

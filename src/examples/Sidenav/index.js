@@ -147,7 +147,7 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
               fontWeight="medium"
               color={darkSidenav ? "white" : "dark"}
             >
-              {brandName}
+                Intern Portal
             </ArgonTypography>
           </ArgonBox>
         </ArgonBox>
