@@ -322,9 +322,7 @@ function Activity() {
                 <Typography variant="body2" paragraph>
                   Collaborate using GitHub and Kanban (simulate real job environment)
                 </Typography>
-                <Button variant="outlined" size="small" sx={{ mt: 1 }}>
-                  Find Teammates
-                </Button>
+               
               </CardContent>
             </Card>
           </Grid>
@@ -427,13 +425,24 @@ function Activity() {
     maxWidth: '100%',
     px: 3,
     position: 'relative',         // ✅ added
-    zIndex: 1201,                 // ✅ added
-    backgroundColor: '#fff'       // ✅ added
+    zIndex: 12,                 // ✅ added
+    backgroundColor: '#fff' ,      // ✅ added
+     borderRadius: '12px' 
   }}
 >
-  <Typography variant="h4" gutterBottom sx={{ mt: 2, mb: 4 }}>
-    Your Personalized Learning Roadmap
-  </Typography>
+    <Typography>.</Typography>
+   <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+          <Typography variant="h4" gutterBottom sx={{ mt: 2 }}>
+            Your Personalized Learning Roadmap
+          </Typography>
+          <Button 
+            variant="contained" 
+            color="primary"
+            sx={{ mt: 2 }}
+          >
+            Generate Roadmap
+          </Button>
+        </Box>
 
   <Stepper activeStep={activeStep} orientation="vertical" sx={{ mb: 4 }}>
     {steps.map((step, index) => (
@@ -496,14 +505,14 @@ function Activity() {
       >
         Review Again
       </Button>
-      <Button variant="outlined" sx={{ mt: 1, mr: 1 }}>
-        Track Progress
-      </Button>
+     
     </Paper>
   )}
 </ArgonBox>
 
     </DashboardLayout>
+
+
   );
 }
 

@@ -316,7 +316,7 @@ const UserProfile = () => {
       <Box
         sx={{
           width: "100%",
-          maxWidth: 1200,
+          maxWidth: 1100,
           margin: "0 auto",
           p: { xs: 2, md: 4 },
           backgroundColor: "#f9fafb",
@@ -345,6 +345,7 @@ const UserProfile = () => {
                 mt: 2,
                 px: 4,
                 py: 1.5,
+                color:'black !important',
                 fontSize: "1rem",
                 borderRadius: "8px",
                 fontWeight: 500,
@@ -500,7 +501,7 @@ const UserProfile = () => {
                     <Typography variant="h5" sx={{ mb: 2, fontWeight: 600 }}>
                       Basic Information
                     </Typography>
-                    <Divider sx={{ mb: 3 }} />
+                    <Divider sx={{ mb: 4 }} />
 
                     <Box
                       sx={{
@@ -604,7 +605,7 @@ const UserProfile = () => {
                     <Typography variant="h5" sx={{ mb: 2, fontWeight: 600 }}>
                       Skills
                     </Typography>
-                    <Divider sx={{ mb: 3 }} />
+                    <Divider sx={{ mb: 2 }} />
 
                     <Typography variant="subtitle1" sx={{ mb: 1, fontWeight: 500 }}>
                       Technical Skills
@@ -672,37 +673,49 @@ const UserProfile = () => {
                 </Card>
 
                 {profile.education.degree && (
-                  <Card
-                    sx={{
-                      mt: 4,
-                      borderRadius: "12px",
-                      boxShadow: "0 4px 20px 0 rgba(0,0,0,0.08)",
-                    }}
-                  >
-                    <CardContent>
-                      <Typography variant="h5" sx={{ mb: 2, fontWeight: 600 }}>
-                        Education
-                      </Typography>
-                      <Divider sx={{ mb: 3 }} />
-                      <Paper sx={{ p: 3, border: "1px solid #eee", borderRadius: "8px" }}>
-                        <Typography variant="h6" sx={{ fontWeight: 600, mb: 1 }}>
-                          {profile.education.degree}{" "}
-                          {profile.education.branch && `in ${profile.education.branch}`}
-                        </Typography>
-                        <Typography variant="subtitle1" sx={{ mb: 1, fontWeight: 500 }}>
-                          {profile.education.institution}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 400 }}>
-                          {profile.education.startDate} - {profile.education.endDate || "Present"}
-                        </Typography>
-                        {profile.education.grade && (
-                          <Typography variant="body2" sx={{ mt: 1, fontWeight: 400 }}>
-                            <strong>Grade:</strong> {profile.education.grade}
-                          </Typography>
-                        )}
-                      </Paper>
-                    </CardContent>
-                  </Card>
+                 <Card
+  sx={{
+    mt: 3, // reduced top margin
+    borderRadius: "12px",
+    boxShadow: "0 4px 20px 0 rgba(0,0,0,0.08)",
+  }}
+>
+  <CardContent sx={{ py: 2, px: 3 }}> {/* reduced padding */}
+    <Typography variant="h6" sx={{ mb: 1.5, fontWeight: 600 }}>
+      Education
+    </Typography>
+    
+
+    <Paper
+      sx={{
+        p: 2, // reduced padding
+        border: "1px solid #eee",
+        borderRadius: "8px",
+        backgroundColor: "#fafafa", // optional for subtle contrast
+      }}
+    >
+      <Typography variant="subtitle1" sx={{ fontWeight: 600, mb: 0.5 }}>
+        {profile.education.degree}{" "}
+        {profile.education.branch && `in ${profile.education.branch}`}
+      </Typography>
+
+      <Typography variant="body2" sx={{ mb: 0.5, fontWeight: 500 }}>
+        {profile.education.institution}
+      </Typography>
+
+      <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 400 }}>
+        {profile.education.startDate} - {profile.education.endDate || "Present"}
+      </Typography>
+
+      {profile.education.grade && (
+        <Typography variant="body2" sx={{ mt: 0.5, fontWeight: 400 }}>
+          <strong>Grade:</strong> {profile.education.grade}
+        </Typography>
+      )}
+    </Paper>
+  </CardContent>
+</Card>
+
                 )}
               </Grid>
 
@@ -831,758 +844,719 @@ const UserProfile = () => {
         )}
 
         {/* Profile Form Dialog */}
-        <Dialog
-          open={openForm}
-          onClose={handleCloseForm}
-          maxWidth="md"
+       <Dialog
+  open={openForm}
+  onClose={handleCloseForm}
+  maxWidth="md"
+  fullWidth
+  PaperProps={{
+    sx: {
+      borderRadius: "12px",
+      overflow: "visible",
+    },
+  }}
+>
+  <DialogTitle
+    sx={{
+      backgroundColor: "primary.main",
+      color: "common.white",
+      fontWeight: 600,
+      py: 2,
+    }}
+  >
+    {editMode ? "Edit Profile" : "Create Profile"}
+  </DialogTitle>
+  <DialogContent dividers sx={{ py: 4 }}>
+    <Grid container spacing={3}>
+      <Grid item xs={12}>
+        <Typography variant="h6" gutterBottom>
+          Basic Information
+        </Typography>
+        <Divider sx={{ mb: 3 }} />
+      </Grid>
+
+      <Grid item xs={12} sm={6}>
+        <TextField
           fullWidth
-          PaperProps={{
-            sx: {
-              borderRadius: "12px",
-              overflow: "visible",
+          label="Full Name"
+          name="fullName"
+          value={formData.fullName}
+          onChange={handleInputChange}
+          required
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <PersonIcon color="action" />
+              </InputAdornment>
+            ),
+          }}
+          sx={{ mb: 2 }}
+        />
+      </Grid>
+
+      <Grid item xs={12} sm={6}>
+        <TextField
+          fullWidth
+          label="Address"
+          name="address"
+          value={formData.address}
+          onChange={handleInputChange}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <LocationOnIcon color="action" />
+              </InputAdornment>
+            ),
+          }}
+          sx={{ mb: 2 }}
+        />
+      </Grid>
+
+      <Grid item xs={12} sm={6}>
+        <TextField
+          fullWidth
+          label="Email Address"
+          name="email"
+          type="email"
+          value={formData.email}
+          onChange={handleInputChange}
+          required
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <EmailIcon color="action" />
+              </InputAdornment>
+            ),
+          }}
+          sx={{ mb: 2 }}
+        />
+      </Grid>
+
+      <Grid item xs={12} sm={6}>
+        <TextField
+          fullWidth
+          label="Phone Number"
+          name="phone"
+          value={formData.phone}
+          onChange={handleInputChange}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <PhoneIcon color="action" />
+              </InputAdornment>
+            ),
+          }}
+          sx={{ mb: 2 }}
+        />
+      </Grid>
+
+      <Grid item xs={12} sm={6}>
+        <TextField
+          fullWidth
+          label="Date of Birth (MM/DD/YYYY)"
+          name="dob"
+          value={formData.dob}
+          onChange={handleInputChange}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <CakeIcon color="action" />
+              </InputAdornment>
+            ),
+          }}
+          sx={{ mb: 2 }}
+        />
+      </Grid>
+
+      <Grid item xs={12} sm={6}>
+        <TextField
+          fullWidth
+          label="Gender"
+          name="gender"
+          value={formData.gender}
+          onChange={handleInputChange}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <PersonIcon color="action" />
+              </InputAdornment>
+            ),
+          }}
+          sx={{ mb: 2 }}
+        />
+      </Grid>
+
+      <Grid item xs={12} sm={6}>
+        <TextField
+          fullWidth
+          label="Current Location"
+          name="location"
+          value={formData.location}
+          onChange={handleInputChange}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <PublicIcon color="action" />
+              </InputAdornment>
+            ),
+          }}
+          sx={{ mb: 2 }}
+        />
+      </Grid>
+
+      <Grid item xs={12} sm={6}>
+        <FormControlLabel
+          control={
+            <Checkbox
+              name="willingToRelocate"
+              checked={formData.willingToRelocate}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  willingToRelocate: e.target.checked,
+                })
+              }
+              color="primary"
+            />
+          }
+          label="Willing to Relocate?"
+          sx={{ mb: 2 }}
+        />
+      </Grid>
+
+      {formData.willingToRelocate && (
+        <Grid item xs={12}>
+          <TextField
+            fullWidth
+            label="Preferred Job Locations"
+            name="preferredLocations"
+            value={formData.preferredLocations}
+            onChange={handleInputChange}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <BusinessIcon color="action" />
+                </InputAdornment>
+              ),
+            }}
+          />
+        </Grid>
+      )}
+
+      <Grid item xs={12}>
+        <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>
+          Professional Summary
+        </Typography>
+        <Divider sx={{ mb: 2 }} />
+      </Grid>
+
+      <Grid item xs={12}>
+        <TextField
+          fullWidth
+          label="Career Goal / Desired Role"
+          name="careerGoal"
+          value={formData.careerGoal}
+          onChange={handleInputChange}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <WorkIcon color="action" />
+              </InputAdornment>
+            ),
+          }}
+          sx={{ mb: 3 }}
+        />
+      </Grid>
+
+      <Grid item xs={12}>
+        <TextField
+          fullWidth
+          label="Short Bio / Career Objective (2–3 lines)"
+          name="bio"
+          multiline
+          rows={4}
+          value={formData.bio}
+          onChange={handleInputChange}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment
+                position="start"
+                sx={{
+                  alignSelf: "flex-start",
+                  mt: 1,
+                }}
+              >
+                <DescriptionIcon color="action" />
+              </InputAdornment>
+            ),
+          }}
+          sx={{
+            mb: 3,
+            "& .MuiInputBase-root": {
+              alignItems: "flex-start",
+            },
+            "& textarea": {
+              overflow: "hidden !important",
+              width: "100% !important",
+              boxSizing: "border-box",
             },
           }}
-        >
-          <DialogTitle
-            sx={{
-              backgroundColor: "primary.main",
-              color: "common.white",
-              fontWeight: 600,
-              py: 2,
-            }}
-          >
-            {editMode ? "Edit Profile" : "Create Profile"}
-          </DialogTitle>
-          <DialogContent dividers sx={{ py: 4 }}>
-            <Grid container spacing={3}>
-              <Grid item xs={12}>
-                <Typography variant="h6" gutterBottom>
-                  Basic Information
-                </Typography>
-                <Divider sx={{ mb: 3 }} />
-              </Grid>
+        />
+      </Grid>
 
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  fullWidth
-                  label="Full Name"
-                  name="fullName"
-                  value={formData.fullName}
-                  onChange={handleInputChange}
-                  required
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <PersonIcon color="action" />
-                      </InputAdornment>
-                    ),
-                  }}
-                  sx={{ mb: 2 }}
-                />
-              </Grid>
+      <Grid item xs={12} sm={6}>
+        <TextField
+          fullWidth
+          label="LinkedIn Profile URL"
+          name="linkedIn"
+          value={formData.linkedIn}
+          onChange={handleInputChange}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <LinkedInIcon color="action" />
+              </InputAdornment>
+            ),
+          }}
+        />
+      </Grid>
 
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  fullWidth
-                  label="Address"
-                  name="address"
-                  value={formData.address}
-                  onChange={handleInputChange}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <LocationOnIcon color="action" />
-                      </InputAdornment>
-                    ),
-                  }}
-                  sx={{ mb: 2 }}
-                />
-              </Grid>
+      <Grid item xs={12} sm={6}>
+        <TextField
+          fullWidth
+          label="GitHub / Portfolio URL"
+          name="github"
+          value={formData.github}
+          onChange={handleInputChange}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <GitHubIcon color="action" />
+              </InputAdornment>
+            ),
+          }}
+        />
+      </Grid>
 
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  fullWidth
-                  label="Email Address"
-                  name="email"
-                  type="email"
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  required
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <EmailIcon color="action" />
-                      </InputAdornment>
-                    ),
-                  }}
-                  sx={{ mb: 2 }}
-                />
-              </Grid>
+      <Grid item xs={12}>
+        <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>
+          Skills
+        </Typography>
+        <Divider sx={{ mb: 2 }} />
+      </Grid>
 
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  fullWidth
-                  label="Phone Number"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleInputChange}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <PhoneIcon color="action" />
-                      </InputAdornment>
-                    ),
-                  }}
-                  sx={{ mb: 2 }}
-                />
-              </Grid>
+      <Grid item xs={12} sm={6}>
+        <TextField
+          fullWidth
+          label="Technical Skills (e.g., React, Java, SQL)"
+          name="technical"
+          value={formData.skills.technical}
+          onChange={handleSkillsChange}
+          multiline
+          rows={4}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment
+                position="start"
+                sx={{
+                  alignSelf: "flex-start",
+                  mt: 1,
+                }}
+              >
+                <CodeIcon color="action" />
+              </InputAdornment>
+            ),
+          }}
+          sx={{
+            "& .MuiInputBase-root": {
+              alignItems: "flex-start",
+            },
+            "& textarea": {
+              overflow: "hidden !important",
+              width: "100% !important",
+              boxSizing: "border-box",
+            },
+          }}
+        />
+      </Grid>
 
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  fullWidth
-                  label="Date of Birth (MM/DD/YYYY)"
-                  name="dob"
-                  value={formData.dob}
-                  onChange={handleInputChange}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <CakeIcon color="action" />
-                      </InputAdornment>
-                    ),
-                  }}
-                  sx={{ mb: 2 }}
-                />
-              </Grid>
+      <Grid item xs={12} sm={6}>
+        <TextField
+          fullWidth
+          label="Tools & Platforms (e.g., Docker, AWS, Figma)"
+          name="tools"
+          value={formData.skills.tools}
+          onChange={handleSkillsChange}
+          multiline
+          rows={4}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment
+                position="start"
+                sx={{
+                  alignSelf: "flex-start",
+                  mt: 1,
+                }}
+              >
+                <WorkIcon color="action" />
+              </InputAdornment>
+            ),
+          }}
+          sx={{
+            "& .MuiInputBase-root": {
+              alignItems: "flex-start",
+            },
+            "& textarea": {
+              overflow: "hidden !important",
+              width: "100% !important",
+              boxSizing: "border-box",
+            },
+          }}
+        />
+      </Grid>
 
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  fullWidth
-                  label="Gender"
-                  name="gender"
-                  value={formData.gender}
-                  onChange={handleInputChange}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <PersonIcon color="action" />
-                      </InputAdornment>
-                    ),
-                  }}
-                  sx={{ mb: 2 }}
-                />
-              </Grid>
+      <Grid item xs={12}>
+        <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>
+          Education
+        </Typography>
+        <Divider sx={{ mb: 2 }} />
 
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  fullWidth
-                  label="Current Location"
-                  name="location"
-                  value={formData.location}
-                  onChange={handleInputChange}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <PublicIcon color="action" />
-                      </InputAdornment>
-                    ),
-                  }}
-                  sx={{ mb: 2 }}
-                />
-              </Grid>
-
-              <Grid item xs={12} sm={6}>
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      name="willingToRelocate"
-                      checked={formData.willingToRelocate}
-                      onChange={(e) =>
-                        setFormData({
-                          ...formData,
-                          willingToRelocate: e.target.checked,
-                        })
-                      }
-                      color="primary"
-                    />
-                  }
-                  label="Willing to Relocate?"
-                  sx={{ mb: 2 }}
-                />
-              </Grid>
-
-              {formData.willingToRelocate && (
-                <Grid item xs={12}>
-                  <TextField
-                    fullWidth
-                    label="Preferred Job Locations"
-                    name="preferredLocations"
-                    value={formData.preferredLocations}
-                    onChange={handleInputChange}
-                    InputProps={{
-                      startAdornment: (
-                        <InputAdornment position="start">
-                          <BusinessIcon color="action" />
-                        </InputAdornment>
-                      ),
-                    }}
-                  />
-                </Grid>
-              )}
-
-              <Grid item xs={12}>
-                <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>
-                  Professional Summary
-                </Typography>
-                <Divider sx={{ mb: 2 }} />
-              </Grid>
-
-              <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  label="Career Goal / Desired Role"
-                  name="careerGoal"
-                  value={formData.careerGoal}
-                  onChange={handleInputChange}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <WorkIcon color="action" />
-                      </InputAdornment>
-                    ),
-                  }}
-                  sx={{ mb: 3 }}
-                />
-              </Grid>
-
-              {/* <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  label="Short Bio / Career Objective (2–3 lines)"
-                  name="bio"
-                  multiline
-                  rows={4}
-                  value={formData.bio}
-                  onChange={handleInputChange}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <DescriptionIcon color="action" />
-                      </InputAdornment>
-                    ),
-                  }}
-                  sx={{ 
-                    mb: 3,
-                    '& .MuiInputBase-root': {
-                      alignItems: 'flex-start'
-                    }
-                  }}
-                />
-              </Grid> */}
-              <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  label="Short Bio / Career Objective (2–3 lines)"
-                  name="bio"
-                  multiline
-                  rows={4}
-                  value={formData.bio}
-                  onChange={handleInputChange}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment
-                        position="start"
-                        sx={{
-                          alignSelf: "flex-start", // ✅ aligns icon to top
-                          mt: 1, // ✅ optional tweak to icon position
-                        }}
-                      >
-                        <DescriptionIcon color="action" />
-                      </InputAdornment>
-                    ),
-                  }}
-                  sx={{
-                    mb: 3,
-                    "& .MuiInputBase-root": {
-                      alignItems: "flex-start", // ✅ ensure icon and text align vertically
-                    },
-                    "& textarea": {
-                      overflow: "hidden !important", // ✅ removes scroll
-                      width: "100% !important", // ✅ allows full width text area
-                      boxSizing: "border-box", // ✅ ensures no overflow from padding
-                    },
-                  }}
-                />
-              </Grid>
-
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  fullWidth
-                  label="LinkedIn Profile URL"
-                  name="linkedIn"
-                  value={formData.linkedIn}
-                  onChange={handleInputChange}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <LinkedInIcon color="action" />
-                      </InputAdornment>
-                    ),
-                  }}
-                />
-              </Grid>
-
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  fullWidth
-                  label="GitHub / Portfolio URL"
-                  name="github"
-                  value={formData.github}
-                  onChange={handleInputChange}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <GitHubIcon color="action" />
-                      </InputAdornment>
-                    ),
-                  }}
-                />
-              </Grid>
-
-              <Grid item xs={12}>
-                <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>
-                  Skills
-                </Typography>
-                <Divider sx={{ mb: 2 }} />
-              </Grid>
-
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  fullWidth
-                  label="Technical Skills (e.g., React, Java, SQL)"
-                  name="technical"
-                  value={formData.skills.technical}
-                  onChange={handleSkillsChange}
-                  multiline
-                  rows={4}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <CodeIcon color="action" />
-                      </InputAdornment>
-                    ),
-                  }}
-                  sx={{
-                    "& .MuiInputBase-root": {
-                      alignItems: "flex-start",
-                    },
-                  }}
-                />
-              </Grid>
-
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  fullWidth
-                  label="Tools & Platforms (e.g., Docker, AWS, Figma)"
-                  name="tools"
-                  value={formData.skills.tools}
-                  onChange={handleSkillsChange}
-                  multiline
-                  rows={4}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <WorkIcon color="action" />
-                      </InputAdornment>
-                    ),
-                  }}
-                  sx={{
-                    "& .MuiInputBase-root": {
-                      alignItems: "flex-start",
-                    },
-                  }}
-                />
-              </Grid>
-
-              <Grid item xs={12}>
-                <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>
-                  Education
-                </Typography>
-                <Divider sx={{ mb: 2 }} />
-
-                <Paper sx={{ p: 3, border: "1px solid #eee", borderRadius: "8px", mb: 3 }}>
-                  <Grid container spacing={2}>
-                    <Grid item xs={12} sm={6}>
-                      <TextField
-                        fullWidth
-                        label="Degree"
-                        name="degree"
-                        value={formData.education.degree}
-                        onChange={handleEducationChange}
-                        required
-                      />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <TextField
-                        fullWidth
-                        label="Branch/Stream"
-                        name="branch"
-                        value={formData.education.branch}
-                        onChange={handleEducationChange}
-                      />
-                    </Grid>
-                    <Grid item xs={12}>
-                      <TextField
-                        fullWidth
-                        label="Institution Name"
-                        name="institution"
-                        value={formData.education.institution}
-                        onChange={handleEducationChange}
-                        required
-                      />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <TextField
-                        fullWidth
-                        label="Start Date (MM/YYYY)"
-                        name="startDate"
-                        value={formData.education.startDate}
-                        onChange={handleEducationChange}
-                      />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <TextField
-                        fullWidth
-                        label="End Date (MM/YYYY)"
-                        name="endDate"
-                        value={formData.education.endDate}
-                        onChange={handleEducationChange}
-                        placeholder="Leave empty if currently studying"
-                      />
-                    </Grid>
-                    <Grid item xs={12}>
-                      <TextField
-                        fullWidth
-                        label="CGPA / Percentage"
-                        name="grade"
-                        value={formData.education.grade}
-                        onChange={handleEducationChange}
-                      />
-                    </Grid>
-                  </Grid>
-                </Paper>
-              </Grid>
-
-              <Grid item xs={12}>
-                <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>
-                  Projects
-                </Typography>
-                <Divider sx={{ mb: 2 }} />
-
-                {formData.projects.map((project, index) => (
-                  <Paper
-                    key={index}
-                    sx={{
-                      mb: 2,
-                      p: 2,
-                      position: "relative",
-                      border: "1px solid #eee",
-                      borderRadius: "8px",
-                    }}
-                  >
-                    <Box sx={{ position: "absolute", right: 8, top: 8, display: "flex", gap: 1 }}>
-                      <IconButton onClick={() => editProject(index)} size="small">
-                        <EditIcon fontSize="small" color="primary" />
-                      </IconButton>
-                      <IconButton onClick={() => removeProject(index)} size="small">
-                        <DeleteOutlineIcon fontSize="small" color="error" />
-                      </IconButton>
-                    </Box>
-                    <Typography variant="subtitle1">{project.title}</Typography>
-                    <Typography variant="body2" color="text.secondary" paragraph>
-                      {project.description}
-                    </Typography>
-                    <Typography variant="body2">
-                      <strong>Technologies:</strong> {project.technologies}
-                    </Typography>
-                    {project.link && (
-                      <Link
-                        href={project.link}
-                        target="_blank"
-                        sx={{ mt: 1, display: "inline-flex", alignItems: "center" }}
-                      >
-                        <LinkIcon fontSize="small" sx={{ mr: 0.5 }} /> View Project
-                      </Link>
-                    )}
-                  </Paper>
-                ))}
-
-                <Paper sx={{ p: 3, border: "1px dashed #ddd", mb: 4, borderRadius: "8px" }}>
-                  <Typography variant="subtitle1" sx={{ mb: 2 }}>
-                    {editingProjectIndex !== null ? "Edit Project" : "Add New Project"}
-                  </Typography>
-                  <Grid container spacing={2}>
-                    <Grid item xs={12}>
-                      <TextField
-                        fullWidth
-                        label="Project Title"
-                        name="title"
-                        value={tempProject.title}
-                        onChange={handleProjectChange}
-                        size="small"
-                      />
-                    </Grid>
-                    {/* <Grid item xs={12}>
-                      <TextField
-                        fullWidth
-                        label="Description"
-                        name="description"
-                        value={tempProject.description}
-                        onChange={handleProjectChange}
-                        multiline
-                        rows={3}
-                        size="small"
-                        sx={{
-                          '& .MuiInputBase-root': {
-                            alignItems: 'flex-start'
-                          }
-                        }}
-                      />
-                    </Grid> */}
-                    <Grid item xs={12}>
-                      <TextField
-                        fullWidth
-                        label="Description"
-                        name="description"
-                        value={tempProject.description}
-                        onChange={handleProjectChange}
-                        multiline
-                        rows={3}
-                        size="small"
-                        sx={{
-                          "& .MuiInputBase-root": {
-                            alignItems: "flex-start", // align text area properly
-                          },
-                          "& textarea": {
-                            overflow: "hidden !important", // remove scroll
-                            width: "100% !important", // ensure full width
-                            boxSizing: "border-box", // handle padding properly
-                          },
-                        }}
-                      />
-                    </Grid>
-
-                    <Grid item xs={12} sm={6}>
-                      <TextField
-                        fullWidth
-                        label="Technologies Used"
-                        name="technologies"
-                        value={tempProject.technologies}
-                        onChange={handleProjectChange}
-                        size="small"
-                      />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <TextField
-                        fullWidth
-                        label="GitHub/Live Link"
-                        name="link"
-                        value={tempProject.link}
-                        onChange={handleProjectChange}
-                        size="small"
-                      />
-                    </Grid>
-                    <Grid item xs={12}>
-                      <Button
-                        variant="outlined"
-                        startIcon={<AddCircleOutlineIcon />}
-                        onClick={addProject}
-                        size="small"
-                        fullWidth
-                        disabled={!tempProject.title.trim()}
-                        sx={{
-                          color: "black !important", // text and icon color
-                          borderColor: "black", // border color
-                          "&:hover": {
-                            borderColor: "black",
-                            backgroundColor: "#f5f5f5", // optional light hover
-                          },
-                        }}
-                      >
-                        {editingProjectIndex !== null ? "Update Project" : "Add Project"}
-                      </Button>
-                    </Grid>
-                  </Grid>
-                </Paper>
-              </Grid>
-
-              <Grid item xs={12}>
-                <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>
-                  Achievements & Awards
-                </Typography>
-                <Divider sx={{ mb: 2 }} />
-
-                {formData.achievements.map((achievement, index) => (
-                  <Paper
-                    key={index}
-                    sx={{
-                      mb: 2,
-                      p: 2,
-                      position: "relative",
-                      border: "1px solid #eee",
-                      borderRadius: "8px",
-                    }}
-                  >
-                    <Box sx={{ position: "absolute", right: 8, top: 8, display: "flex", gap: 1 }}>
-                      <IconButton onClick={() => editAchievement(index)} size="small">
-                        <EditIcon fontSize="small" color="primary" />
-                      </IconButton>
-                      <IconButton onClick={() => removeAchievement(index)} size="small">
-                        <DeleteOutlineIcon fontSize="small" color="error" />
-                      </IconButton>
-                    </Box>
-                    <Typography variant="subtitle1">{achievement.title}</Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      {achievement.issuer} • {achievement.year}
-                    </Typography>
-                    <Typography variant="body2">{achievement.description}</Typography>
-                  </Paper>
-                ))}
-
-                <Paper sx={{ p: 3, border: "1px dashed #ddd", borderRadius: "8px" }}>
-                  <Typography variant="subtitle1" sx={{ mb: 2 }}>
-                    {editingAchievementIndex !== null ? "Edit Achievement" : "Add New Achievement"}
-                  </Typography>
-                  <Grid container spacing={2}>
-                    <Grid item xs={12} sm={6}>
-                      <TextField
-                        fullWidth
-                        label="Title"
-                        name="title"
-                        value={tempAchievement.title}
-                        onChange={handleAchievementChange}
-                        size="small"
-                      />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <TextField
-                        fullWidth
-                        label="Issuing Body"
-                        name="issuer"
-                        value={tempAchievement.issuer}
-                        onChange={handleAchievementChange}
-                        size="small"
-                      />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <TextField
-                        fullWidth
-                        label="Year"
-                        name="year"
-                        value={tempAchievement.year}
-                        onChange={handleAchievementChange}
-                        size="small"
-                      />
-                    </Grid>
-                    {/* <Grid item xs={12}>
-                      <TextField
-                        fullWidth
-                        label="Description"
-                        name="description"
-                        value={tempAchievement.description}
-                        onChange={handleAchievementChange}
-                        multiline
-                        rows={3}
-                        size="small"
-                        sx={{
-                          '& .MuiInputBase-root': {
-                            alignItems: 'flex-start'
-                          }
-                        }}
-                      />
-                    </Grid> */}
-                    <Grid item xs={12}>
-                      <TextField
-                        fullWidth
-                        label="Description"
-                        name="description"
-                        value={tempAchievement.description}
-                        onChange={handleAchievementChange}
-                        multiline
-                        rows={3}
-                        size="small"
-                        sx={{
-                          "& .MuiInputBase-root": {
-                            alignItems: "flex-start", // keeps vertical alignment clean
-                          },
-                          "& textarea": {
-                            overflow: "hidden !important", // removes scroll bar
-                            width: "100% !important", // expands text area fully
-                            boxSizing: "border-box", // respects padding/border
-                          },
-                        }}
-                      />
-                    </Grid>
-
-                    <Grid item xs={12}>
-                      <Button
-                        variant="outlined"
-                        startIcon={<AddCircleOutlineIcon />}
-                        onClick={addAchievement}
-                        size="small"
-                        fullWidth
-                        disabled={!tempAchievement.title.trim()}
-                        sx={{
-                          color: "black !important", // text and icon color
-                          borderColor: "black", // border color
-                          "&:hover": {
-                            borderColor: "black",
-                            backgroundColor: "#f5f5f5", // optional hover effect
-                          },
-                        }}
-                      >
-                        {editingAchievementIndex !== null
-                          ? "Update Achievement"
-                          : "Add Achievement"}
-                      </Button>
-                    </Grid>
-                  </Grid>
-                </Paper>
-              </Grid>
+        <Paper sx={{ p: 3, border: "1px solid #eee", borderRadius: "8px", mb: 3 }}>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                fullWidth
+                label="Degree"
+                name="degree"
+                value={formData.education.degree}
+                onChange={handleEducationChange}
+                required
+              />
             </Grid>
-          </DialogContent>
-          <DialogActions
+            <Grid item xs={12} sm={6}>
+              <TextField
+                fullWidth
+                label="Branch/Stream"
+                name="branch"
+                value={formData.education.branch}
+                onChange={handleEducationChange}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                label="Institution Name"
+                name="institution"
+                value={formData.education.institution}
+                onChange={handleEducationChange}
+                required
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                fullWidth
+                label="Start Date (MM/YYYY)"
+                name="startDate"
+                value={formData.education.startDate}
+                onChange={handleEducationChange}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                fullWidth
+                label="End Date (MM/YYYY)"
+                name="endDate"
+                value={formData.education.endDate}
+                onChange={handleEducationChange}
+                placeholder="Leave empty if currently studying"
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                label="CGPA / Percentage"
+                name="grade"
+                value={formData.education.grade}
+                onChange={handleEducationChange}
+              />
+            </Grid>
+          </Grid>
+        </Paper>
+      </Grid>
+
+      <Grid item xs={12}>
+        <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>
+          Projects
+        </Typography>
+        <Divider sx={{ mb: 2 }} />
+
+        {formData.projects.map((project, index) => (
+          <Paper
+            key={index}
             sx={{
-              px: 3,
-              py: 2,
+              mb: 2,
+              p: 2,
+              position: "relative",
+              border: "1px solid #eee",
+              borderRadius: "8px",
             }}
           >
-            <Button
-              onClick={handleCloseForm}
-              sx={{
-                borderRadius: "6px",
-                px: 3,
-                textTransform: "none",
-                fontWeight: 500,
-              }}
-            >
-              Cancel
-            </Button>
-            <Button
-              onClick={handleSubmit}
-              variant="contained"
-              color="primary"
-              sx={{
-                borderRadius: "6px",
-                px: 3,
-                textTransform: "none",
-                fontWeight: 500,
-              }}
-            >
-              {editMode ? "Update Profile" : "Create Profile"}
-            </Button>
-          </DialogActions>
-        </Dialog>
+            <Box sx={{ position: "absolute", right: 8, top: 8, display: "flex", gap: 1 }}>
+              <IconButton onClick={() => editProject(index)} size="small">
+                <EditIcon fontSize="small" color="primary" />
+              </IconButton>
+              <IconButton onClick={() => removeProject(index)} size="small">
+                <DeleteOutlineIcon fontSize="small" color="error" />
+              </IconButton>
+            </Box>
+            <Typography variant="subtitle1">{project.title}</Typography>
+            <Typography variant="body2" color="text.secondary" paragraph>
+              {project.description}
+            </Typography>
+            <Typography variant="body2">
+              <strong>Technologies:</strong> {project.technologies}
+            </Typography>
+            {project.link && (
+              <Link
+                href={project.link}
+                target="_blank"
+                sx={{ mt: 1, display: "inline-flex", alignItems: "center" }}
+              >
+                <LinkIcon fontSize="small" sx={{ mr: 0.5 }} /> View Project
+              </Link>
+            )}
+          </Paper>
+        ))}
+
+        <Paper sx={{ p: 3, border: "1px dashed #ddd", mb: 4, borderRadius: "8px" }}>
+          <Typography variant="subtitle1" sx={{ mb: 2 }}>
+            {editingProjectIndex !== null ? "Edit Project" : "Add New Project"}
+          </Typography>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                label="Project Title"
+                name="title"
+                value={tempProject.title}
+                onChange={handleProjectChange}
+                size="small"
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                label="Description"
+                name="description"
+                value={tempProject.description}
+                onChange={handleProjectChange}
+                multiline
+                rows={3}
+                size="small"
+                sx={{
+                  "& .MuiInputBase-root": {
+                    alignItems: "flex-start",
+                  },
+                  "& textarea": {
+                    overflow: "hidden !important",
+                    width: "100% !important",
+                    boxSizing: "border-box",
+                  },
+                }}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                fullWidth
+                label="Technologies Used"
+                name="technologies"
+                value={tempProject.technologies}
+                onChange={handleProjectChange}
+                size="small"
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                fullWidth
+                label="GitHub/Live Link"
+                name="link"
+                value={tempProject.link}
+                onChange={handleProjectChange}
+                size="small"
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <Button
+                variant="outlined"
+                startIcon={<AddCircleOutlineIcon />}
+                onClick={addProject}
+                size="small"
+                fullWidth
+                disabled={!tempProject.title.trim()}
+                sx={{
+                  color: "black !important",
+                  borderColor: "black",
+                  "&:hover": {
+                    borderColor: "black",
+                    backgroundColor: "#f5f5f5",
+                  },
+                }}
+              >
+                {editingProjectIndex !== null ? "Update Project" : "Add Project"}
+              </Button>
+            </Grid>
+          </Grid>
+        </Paper>
+      </Grid>
+
+      <Grid item xs={12}>
+        <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>
+          Achievements & Awards
+        </Typography>
+        <Divider sx={{ mb: 2 }} />
+
+        {formData.achievements.map((achievement, index) => (
+          <Paper
+            key={index}
+            sx={{
+              mb: 2,
+              p: 2,
+              position: "relative",
+              border: "1px solid #eee",
+              borderRadius: "8px",
+            }}
+          >
+            <Box sx={{ position: "absolute", right: 8, top: 8, display: "flex", gap: 1 }}>
+              <IconButton onClick={() => editAchievement(index)} size="small">
+                <EditIcon fontSize="small" color="primary" />
+              </IconButton>
+              <IconButton onClick={() => removeAchievement(index)} size="small">
+                <DeleteOutlineIcon fontSize="small" color="error" />
+              </IconButton>
+            </Box>
+            <Typography variant="subtitle1">{achievement.title}</Typography>
+            <Typography variant="body2" color="text.secondary">
+              {achievement.issuer} • {achievement.year}
+            </Typography>
+            <Typography variant="body2">{achievement.description}</Typography>
+          </Paper>
+        ))}
+
+        <Paper sx={{ p: 3, border: "1px dashed #ddd", borderRadius: "8px" }}>
+          <Typography variant="subtitle1" sx={{ mb: 2 }}>
+            {editingAchievementIndex !== null ? "Edit Achievement" : "Add New Achievement"}
+          </Typography>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                fullWidth
+                label="Title"
+                name="title"
+                value={tempAchievement.title}
+                onChange={handleAchievementChange}
+                size="small"
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                fullWidth
+                label="Issuing Body"
+                name="issuer"
+                value={tempAchievement.issuer}
+                onChange={handleAchievementChange}
+                size="small"
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                fullWidth
+                label="Year"
+                name="year"
+                value={tempAchievement.year}
+                onChange={handleAchievementChange}
+                size="small"
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                label="Description"
+                name="description"
+                value={tempAchievement.description}
+                onChange={handleAchievementChange}
+                multiline
+                rows={3}
+                size="small"
+                sx={{
+                  "& .MuiInputBase-root": {
+                    alignItems: "flex-start",
+                  },
+                  "& textarea": {
+                    overflow: "hidden !important",
+                    width: "100% !important",
+                    boxSizing: "border-box",
+                  },
+                }}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <Button
+                variant="outlined"
+                startIcon={<AddCircleOutlineIcon />}
+                onClick={addAchievement}
+                size="small"
+                fullWidth
+                disabled={!tempAchievement.title.trim()}
+                sx={{
+                  color: "black !important",
+                  borderColor: "black",
+                  "&:hover": {
+                    borderColor: "black",
+                    backgroundColor: "#f5f5f5",
+                  },
+                }}
+              >
+                {editingAchievementIndex !== null ? "Update Achievement" : "Add Achievement"}
+              </Button>
+            </Grid>
+          </Grid>
+        </Paper>
+      </Grid>
+    </Grid>
+  </DialogContent>
+  <DialogActions
+    sx={{
+      px: 3,
+      py: 2,
+    }}
+  >
+    <Button
+      onClick={handleCloseForm}
+      sx={{
+        borderRadius: "6px",
+        px: 3,
+        textTransform: "none",
+        fontWeight: 500,
+      }}
+    >
+      Cancel
+    </Button>
+    <Button
+      onClick={handleSubmit}
+      variant="contained"
+      color="primary"
+      sx={{
+        borderRadius: "6px",
+        px: 3,
+        textTransform: "none",
+        fontWeight: 500,
+      }}
+    >
+      {editMode ? "Update Profile" : "Create Profile"}
+    </Button>
+  </DialogActions>
+</Dialog>
+        
       </Box>
     </DashboardLayout>
   );
