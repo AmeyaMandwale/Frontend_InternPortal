@@ -61,22 +61,40 @@ const routes = [
     icon: <ArgonBox component="i" color="primary" fontSize="14px" className="ni ni-tv-2" />,
     component: <Dashboard />,
   },
+  {  
+   type: "route",
+    name: "UserProfile",
+    key: "userprofile",
+    route: "/userprofile",
+    icon: <ArgonBox component="i" color="primary" fontSize="14px" className="ni ni-single-02" />,
+    component: <UserProfile />,
+  },
+  
   {
     type: "route",
 
     name: "Opportunities",
     key: "opportunities",
     route: "/opportunities",
-    icon: <ArgonBox component="i" color="info" fontSize="14px" className="ni ni-briefcase-24" />,
+    icon: <ArgonBox component="i" color="primary" fontSize="14px" className="ni ni-briefcase-24" />,
     component: <OpportunitiesSection />,
   },
+    {
+    type: "route",
+    name: "Activity",
+    key: "activity",
+    route: "/activity",
+    icon: <ArgonBox component="i" color="primary" fontSize="14px" className="ni ni-chart-bar-32" />,
+    component: <Activity />,
+  },
+ 
 
     {
     type: "route",
     name: "Resume Builder",
     key: "resume",
     route: "/resume",
-    icon: <ArgonBox component="i" color="info" fontSize="14px" className="ni ni-single-copy-04" />,
+    icon: <ArgonBox component="i" color="primary" fontSize="14px" className="ni ni-single-copy-04" />,
     component: <ResumeBuilder />,
   },
   // {
@@ -132,23 +150,8 @@ const routes = [
   // },
 
   
-{  
-   type: "route",
-    name: "UserProfile",
-    key: "userprofile",
-    route: "/userprofile",
-    icon: <ArgonBox component="i" color="primary" fontSize="14px" className="ni ni-tv-2" />,
-    component: <UserProfile />,
-  },
-  {
-    type: "route",
-    name: "Activity",
-    key: "activity",
-    route: "/activity",
-    icon: <ArgonBox component="i" color="primary" fontSize="14px" className="ni ni-tv-2" />,
-    component: <Activity />,
-  },
- 
+
+
 
 
 ];
